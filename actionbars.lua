@@ -1,0 +1,115 @@
+local act = CreateFrame("FRAME");
+act:RegisterEvent("PLAYER_ENTERING_WORLD");
+act:RegisterEvent("PLAYER_REGEN_ENABLED")
+act:RegisterEvent("PLAYER_REGEN_DISABLED")
+local function eventHandler(self, event, ...)
+ 
+
+
+-- Action Bars
+	MainMenuBar:Hide()
+	MainMenuBar.Show = function() end
+
+	local x = -232
+	for i=1, NUM_ACTIONBAR_BUTTONS do
+		local button = _G["ActionButton"..i]
+
+		if button then
+			button:SetParent(UIParent)
+			button:ClearAllPoints()
+			button:SetPoint("BOTTOM", UIParent, "BOTTOM", x, 30)
+			button.SetPoint = function() end
+			button:SetScale(0.95)
+		end
+
+		x=x+42
+	end
+
+	MultiBarBottomLeft:SetParent(UIParent)
+	MultiBarBottomLeft:ClearAllPoints()
+	MultiBarBottomLeft:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 6)
+	MultiBarBottomLeft.SetPoint = function() end
+	MultiBarBottomLeft:SetScale(0.95)
+
+	MultiBarBottomRight:SetParent(UIParent)
+	MultiBarBottomRight:ClearAllPoints()
+	MultiBarBottomRight:SetPoint("BOTTOMLEFT", MultiBarBottomLeft, "TOPLEFT", 0, 4)
+	MultiBarBottomRight.SetPoint = function() end
+	MultiBarBottomRight:SetScale(0.95)
+
+	BonusActionBarFrame:SetParent(UIParent)
+	BonusActionBarFrame.SetParent = function() end
+	BonusActionBarFrame:ClearAllPoints()
+	BonusActionBarFrame.ClearAllPoints = function() end
+	BonusActionBarFrame:SetPoint("LEFT", ActionButton1, "LEFT", -5, 0)
+	BonusActionBarFrame.ClearAllPoints = function() end
+	BonusActionBarFrame:SetScale(0.95)
+	
+	MultiCastActionBarFrame:SetParent(UIParent)
+	MultiCastActionBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton12, "TOPLEFT", -32, 6)
+	MultiCastActionBarFrame:SetScale(0.9)
+
+	PetActionBarFrame:SetParent(UIParent)
+	PetActionBarFrame:ClearAllPoints()
+	PetActionBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", -32, 6)
+	PetActionBarFrame.SetPoint = function() end
+	PetActionBarFrame:SetScale(0.7)
+
+	local array = {"ActionButton", "BonusActionButton", "MultiBarBottomLeftButton", "MultiBarBottomRightButton", "PetActionButton", "VehicleMenuBarActionButton"}
+	for i=1, NUM_ACTIONBAR_BUTTONS do
+		for _, v in pairs(array) do
+			local border = _G[v..i.."NormalTexture"] or _G[v..i.."NormalTexture2"]
+			local hotkey = _G[v..i.."HotKey"]
+			local macro = _G[v..i.."Name"]
+
+			if border then
+				--border:SetAlpha(0)
+				border:Hide()
+				--border.SetAlpha = function() end
+			end
+			--[[if hotkey then
+				hotkey:Hide()
+				hotkey.Show = function() end
+			end]]
+			--if macro then
+			--	macro:Hide()
+			--	macro.Show = function() end
+			--end
+		end
+	end
+
+	-- for i=1,BONUSACTIONBAR_NUM_TEXTURES do
+		-- local texture = _G["BonusActionBarFrameTexture"..i]
+
+		-- if texture then
+			-- texture:Hide()
+			-- texture.Show = function() end
+		-- end
+	-- end
+	
+ShapeshiftBarFrame:SetParent("UIParent")	
+	
+	
+	
+	
+local font = CreateFont("accid1") -- font must be named!
+font:SetFont("Interface\\AddOns\\zBurnUI\\media\\fonts\\accid.ttf", 15, "OUTLINE")
+NumberFontNormalSmallGray:SetFontObject(font)
+GameFontHighlightSmallOutline:SetFont("Interface\\AddOns\\zBurnUI\\media\\fonts\\accid.ttf", 14)
+NumberFontNormal:SetFont("Interface\\AddOns\\zBurnUI\\media\\fonts\\accid.ttf", 16, "OUTLINE")
+end
+act:HookScript("OnEvent", eventHandler);
+
+--------------------------------------------
+local function chclass(self, event, ...)
+asdf=select(2, UnitClass("Player"))	
+	if asdf=="WARRIOR" or asdf == "PRIEST" then
+		RegisterStateDriver(MainMenuBarArtFrame, "actionpage", "[bonusbar:5] 11; [bar:1] 1; [bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6; 1")
+		BonusActionBarFrame:Hide()
+		BonusActionBarFrame:UnregisterAllEvents()
+  
+    
+	end
+	end
+
+act:HookScript("OnEvent", chclass)
